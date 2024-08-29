@@ -186,6 +186,7 @@ def configuration(url,target_id,target,default_scanning_profile_id):#配置目�
                 "sensor": False, "user_agent": 'User-Agent: Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; 360SE)', "case_sensitive": "auto",
                 "limit_crawler_scope": limit_crawler_scope, "excluded_paths": excluded_paths,
                 "authentication": {"enabled": False},
+                # ,"username":"test","password":"P@ssw0rd",
                 "proxy": {"enabled": proxy_enabled, "protocol": "http", "address": proxy_server.split(':')[0], "port": proxy_server.split(':')[1]},
                 "technologies": [], "custom_headers": custom_headers, "custom_cookies": [],
                 "debug": False, "client_certificate_password": "", "issue_tracker_id": "", "excluded_hours_id": ""}
