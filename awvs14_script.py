@@ -31,6 +31,8 @@ try:
     proxy_enabled = cf.get('scan_seting', 'proxy_enabled').replace('\n', '').strip()  # 处理前后空格 与换行
     proxy_server = cf.get('scan_seting', 'proxy_server').replace('\n', '').strip()  # 处理前后空格 与换行
     webhook_url = cf.get('scan_seting', 'webhook_url').replace('\n', '').strip()  # 处理前后空格 与换行
+    proxy_username = cf.get('scan_seting', 'proxy_username').replace('\n', '').strip()
+    proxy_password = cf.get('scan_seting', 'proxy_password').replace('\n', '').strip()
 
 except Exception as e:
     print('初始化失败，获取config.ini失败，请检查config.ini文件配置是否正确\n', e)
@@ -176,7 +178,7 @@ def scan(url,target,profile_id,is_to_scan):
             print(e)
 
 def configuration(url,target_id,target,default_scanning_profile_id):#配置目标
-    global custom_headers,excluded_paths,limit_crawler_scope,scan_cookie,scan_speed,proxy_enabled,proxy_server
+    global custom_headers,excluded_paths,limit_crawler_scope,scan_cookie,scan_speed,proxy_enabled,proxy_server,proxy_username,proxy_password
     configuration_url = ''.join((url,'/api/v1/targets/{0}/configuration'.format(target_id)))
     if scan_cookie != '':#自定义用户的cookie
         data = {"scan_speed":scan_speed,"login":{"kind":"none"},"ssh_credentials":{"kind":"none"},"default_scanning_profile_id":default_scanning_profile_id,"sensor": False,"user_agent": 'User-Agent: Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; 360SE)',"case_sensitive":"auto","limit_crawler_scope": limit_crawler_scope,"excluded_paths":excluded_paths,"authentication":{"enabled": False},"proxy":{"enabled": proxy_enabled,"protocol":"http","address":proxy_server.split(':')[0],"port":proxy_server.split(':')[1]},"technologies":[],"custom_headers":custom_headers,"custom_cookies":[{"url":target,"cookie":scan_cookie}],"debug":False,"client_certificate_password":"","issue_tracker_id":"","excluded_hours_id":""}
@@ -186,8 +188,8 @@ def configuration(url,target_id,target,default_scanning_profile_id):#配置目�
                 "sensor": False, "user_agent": 'User-Agent: Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; 360SE)', "case_sensitive": "auto",
                 "limit_crawler_scope": limit_crawler_scope, "excluded_paths": excluded_paths,
                 "authentication": {"enabled": False},
-                # ,"username":"test","password":"P@ssw0rd",
-                "proxy": {"enabled": proxy_enabled, "protocol": "http", "address": proxy_server.split(':')[0], "port": proxy_server.split(':')[1]},
+                # "authentication":{"enabled":true,"username":"administrator","password":"P@ssw0rd"},
+                "proxy": {"enabled": proxy_enabled, "username":proxy_username,"password":proxy_password,"protocol": "http", "address": proxy_server.split(':')[0], "port": proxy_server.split(':')[1]},
                 "technologies": [], "custom_headers": custom_headers, "custom_cookies": [],
                 "debug": False, "client_certificate_password": "", "issue_tracker_id": "", "excluded_hours_id": ""}
 
